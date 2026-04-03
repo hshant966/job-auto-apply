@@ -35,23 +35,43 @@ class _FakeFastAPI:
     def __init__(self, *a, **kw):
         self.routes = []
     def mount(self, *a, **kw): pass
-    def include_router(self, router, *a, **kw):
+    def include_router(self, router, prefix="", tags=None, **kw):
         if hasattr(router, "routes"):
-            self.routes.extend(router.routes)
+            for route in router.routes:
+                full_path = prefix + (route.path if hasattr(route, 'path') else "")
+                self.routes.append(type("Route", (), {"path": full_path})())
+    def middleware(self, *a, **kw):
+        def decorator(fn):
+            return fn
+        return decorator
+    def add_middleware(self, *a, **kw): pass
+    def on_event(self, *a, **kw):
+        def decorator(fn):
+            return fn
+        return decorator
+    def exception_handler(self, *a, **kw):
+        def decorator(fn):
+            return fn
+        return decorator
 
 class _FakeAPIRouter:
     def __init__(self, *a, **kw):
         self.routes = []
+    def _route_decorator(self, path, *a, **kw):
+        def decorator(fn):
+            self.routes.append(type("Route", (), {"path": path})())
+            return fn
+        return decorator
     def get(self, path, *a, **kw):
-        def decorator(fn):
-            self.routes.append(type("Route", (), {"path": path, "method": "GET"})())
-            return fn
-        return decorator
+        return self._route_decorator(path)
     def post(self, path, *a, **kw):
-        def decorator(fn):
-            self.routes.append(type("Route", (), {"path": path, "method": "POST"})())
-            return fn
-        return decorator
+        return self._route_decorator(path)
+    def put(self, path, *a, **kw):
+        return self._route_decorator(path)
+    def delete(self, path, *a, **kw):
+        return self._route_decorator(path)
+    def patch(self, path, *a, **kw):
+        return self._route_decorator(path)
 
 _fastapi_module.FastAPI = _FakeFastAPI
 _fastapi_module.APIRouter = _FakeAPIRouter
