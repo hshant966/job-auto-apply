@@ -78,3 +78,26 @@ def verify_password(password: str, stored: str) -> bool:
         return secrets.compare_digest(expected, digest)
     except (ValueError, AttributeError):
         return False
+
+
+class EncryptionManager:
+    """Encryption utilities wrapper — provides OOP interface to standalone functions."""
+
+    def __init__(self, master_password: str = None):
+        self.master_password = master_password
+
+    def encrypt(self, plaintext: str, password: str = None) -> str:
+        return encrypt(plaintext, password or self.master_password)
+
+    def decrypt(self, blob_b64: str, password: str = None) -> str:
+        return decrypt(blob_b64, password or self.master_password)
+
+    def hash_password(self, password: str) -> str:
+        return hash_password(password)
+
+    def verify_password(self, password: str, stored: str) -> bool:
+        return verify_password(password, stored)
+
+    @staticmethod
+    def derive_key(password: str, salt: bytes) -> bytes:
+        return derive_key(password, salt)

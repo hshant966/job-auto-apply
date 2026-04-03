@@ -25,3 +25,5 @@ ADAPTER_REGISTRY = {
     "rrb": RRBAdapter,
     "ibps": IBPSAdapter,
 }
+
+ADAPTERS = ADAPTER_REGISTRY

@@ -398,3 +398,24 @@ def auto_preprocess(img: bytes | any) -> PreprocessedImage:
     if isinstance(img, (bytes, bytearray)):
         img = load_from_bytes(img)
     return run_pipeline(img, DEFAULT_PIPELINES[0])
+
+
+def preprocess_captcha(image_data: bytes) -> list[bytes]:
+    """Run all default preprocessing pipelines on captcha image data.
+
+    Returns a list of preprocessed image bytes, one per pipeline.
+    """
+    img = load_from_bytes(image_data)
+    if img is None:
+        return []
+    results = []
+    # Pipeline 1: grayscale + Otsu
+    g = to_grayscale(img)
+    results.append(to_bytes(otsu_threshold(g)))
+    # Pipeline 2: contrast + sharpen
+    results.append(to_bytes(gaussian_blur(g, 3)))
+    # Pipeline 3: resize + denoise
+    results.append(to_bytes(median_blur(g, 3)))
+    # Pipeline 4: raw grayscale
+    results.append(to_bytes(g))
+    return results

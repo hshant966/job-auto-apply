@@ -13,21 +13,23 @@ for mod_name in ["playwright", "playwright.async_api", "playwright.sync_api"]:
         sys.modules[mod_name] = _pw_api if mod_name == "playwright" else MagicMock()
 
 # --- Pydantic (data validation) ---
-# Must provide BaseModel as a real class so 'class Foo(BaseModel)' works.
-import types as _types
-
-_pydantic_module = _types.ModuleType("pydantic")
-_pydantic_module.BaseModel = type("BaseModel", (), {"__init__": lambda self, **kw: None})
-_pydantic_module.Field = lambda *a, **kw: None
-_pydantic_module.ValidationError = type("ValidationError", (Exception,), {})
-_pydantic_module.field_validator = lambda *a, **kw: (lambda fn: fn)
-_pydantic_module.model_validator = lambda *a, **kw: (lambda fn: fn)
-_pydantic_module.validator = lambda *a, **kw: (lambda fn: fn)
-_pydantic_module.root_validator = lambda *a, **kw: (lambda fn: fn)
-sys.modules.setdefault("pydantic", _pydantic_module)
+# Use real pydantic if available; only mock if truly missing.
+try:
+    import pydantic  # noqa: F401 — use real pydantic
+except ImportError:
+    import types as _types
+    _pydantic_module = _types.ModuleType("pydantic")
+    _pydantic_module.BaseModel = type("BaseModel", (), {"__init__": lambda self, **kw: None, "model_dump_json": lambda self: "{}", "model_dump": lambda self: {}})
+    _pydantic_module.Field = lambda *a, **kw: None
+    _pydantic_module.ValidationError = type("ValidationError", (Exception,), {})
+    _pydantic_module.field_validator = lambda *a, **kw: (lambda fn: fn)
+    _pydantic_module.model_validator = lambda *a, **kw: (lambda fn: fn)
+    _pydantic_module.validator = lambda *a, **kw: (lambda fn: fn)
+    _pydantic_module.root_validator = lambda *a, **kw: (lambda fn: fn)
+    sys.modules["pydantic"] = _pydantic_module
 
 # --- FastAPI ---
-import importlib
+import types as _types
 
 _fastapi_module = _types.ModuleType("fastapi")
 
