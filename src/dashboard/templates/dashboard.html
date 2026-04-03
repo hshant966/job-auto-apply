@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobAutoApply — Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    {% include "_nav.html" %}
+    <main class="main-content">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+        <div>
+          <h1 style="font-size:24px;font-weight:700">Dashboard</h1>
+          <p style="color:var(--text-secondary);font-size:14px;margin-top:4px">AI-Powered Job Application Automation for India</p>
+        </div>
+        <button class="btn btn-primary" onclick="scanJobs()">📡 Scan Jobs Now</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">📋</div>
+          <div>
+            <div class="stat-value" id="total-jobs">{{ stats.total_jobs or 0 }}</div>
+            <div class="stat-label">Total Jobs</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div>
+            <div class="stat-value" id="submitted">{{ stats.submitted or 0 }}</div>
+            <div class="stat-label">Applications Submitted</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon yellow">📊</div>
+          <div>
+            <div class="stat-value" id="success-rate">{{ stats.success_rate or 0 }}%</div>
+            <div class="stat-label">Success Rate</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">🔄</div>
+          <div>
+            <div class="stat-value" id="total-apps">{{ stats.total_applications or 0 }}</div>
+            <div class="stat-label">Total Applications</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application Status Breakdown -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">📈 Application Status</h2>
+          </div>
+          <div id="status-breakdown">
+            <div class="empty-state">
+              <div class="empty-state-icon">📊</div>
+              <h3>No applications yet</h3>
+              <p>Start scanning to discover and apply to jobs</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">⏰ Upcoming Deadlines</h2>
+            <a href="/jobs" class="btn btn-secondary btn-sm">View All</a>
+          </div>
+          <div id="deadlines-list">
+            <div class="empty-state">
+              <div class="empty-state-icon">📅</div>
+              <h3>No upcoming deadlines</h3>
+              <p>Jobs with deadlines will appear here</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Jobs -->
+      <div class="card" style="margin-top:24px">
+        <div class="card-header">
+          <h2 class="card-title">🆕 Recently Discovered Jobs</h2>
+          <a href="/jobs" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Portal</th>
+                <th>Location</th>
+                <th>Deadline</th>
+                <th>Score</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="recent-jobs-table">
+              <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:40px">No jobs discovered yet. Click "Scan Jobs Now" to start.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+  <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
+
+  <script>
+    // Theme
+    const theme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    function toggleTheme() {
+      const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+    }
+
+    // Toast notifications
+    function toast(msg, type='info') {
+      const c = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.textContent = msg;
+      c.appendChild(t);
+      setTimeout(() => t.remove(), 4000);
+    }
+
+    // Load data
+    async function loadDashboard() {
+      try {
+        const [statsRes, deadlinesRes, jobsRes] = await Promise.all([
+          fetch('/api/dashboard/stats'),
+          fetch('/api/dashboard/deadlines?days=7'),
+          fetch('/api/dashboard/recent-jobs?limit=10'),
+        ]);
+
+        const stats = await statsRes.json();
+        const deadlines = await deadlinesRes.json();
+        const jobs = await jobsRes.json();
+
+        // Update stats
+        document.getElementById('total-jobs').textContent = stats.total_jobs || 0;
+        document.getElementById('submitted').textContent = stats.submitted || 0;
+        document.getElementById('success-rate').textContent = (stats.success_rate || 0) + '%';
+        document.getElementById('total-apps').textContent = stats.total_applications || 0;
+
+        // Status breakdown
+        if (stats.by_status && Object.keys(stats.by_status).length > 0) {
+          const statusHtml = Object.entries(stats.by_status).map(([s, c]) => {
+            const colors = { discovered:'info', draft:'muted', applying:'warning', submitted:'success', confirmed:'success', rejected:'danger', selected:'success', failed:'danger' };
+            return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+              <span class="badge ${colors[s]||'muted'}">${s}</span>
+              <strong>${c}</strong>
+            </div>`;
+          }).join('');
+          document.getElementById('status-breakdown').innerHTML = statusHtml;
+        }
+
+        // Deadlines
+        if (deadlines.length > 0) {
+          document.getElementById('deadlines-list').innerHTML = deadlines.map(d => `
+            <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+              <div><strong>${d.title}</strong><br><small style="color:var(--text-muted)">${d.portal}</small></div>
+              <span class="badge warning">${d.last_date}</span>
+            </div>
+          `).join('');
+        }
+
+        // Recent jobs
+        if (jobs.length > 0) {
+          document.getElementById('recent-jobs-table').innerHTML = jobs.map(j => `
+            <tr>
+              <td><strong>${j.title}</strong></td>
+              <td><span class="badge info">${j.portal}</span></td>
+              <td>${j.location || '—'}</td>
+              <td>${j.last_date || '—'}</td>
+              <td>${j.match_score ? '<span class="badge '+(j.match_score>=70?'success':j.match_score>=40?'warning':'danger')+'">'+j.match_score+'%</span>' : '—'}</td>
+              <td><a href="${j.url}" target="_blank" class="btn btn-primary btn-sm">View</a></td>
+            </tr>
+          `).join('');
+        }
+      } catch(e) {
+        console.error('Dashboard load error:', e);
+      }
+    }
+
+    async function scanJobs() {
+      toast('Starting job scan...', 'info');
+      try {
+        const res = await fetch('/api/jobs/scan', { method: 'POST' });
+        const data = await res.json();
+        toast(`Found ${data.total_found || 0} jobs!`, 'success');
+        loadDashboard();
+      } catch(e) {
+        toast('Scan failed: ' + e.message, 'error');
+      }
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>

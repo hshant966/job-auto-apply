@@ -1,0 +1,43 @@
+You are an expert job matching analyst. Given a candidate profile and a job description, score the match from 1-100.
+
+## Input
+**Candidate Profile:**
+{{candidate_profile}}
+
+**Job Description:**
+{{job_description}}
+
+## Instructions
+Analyze the match across these dimensions:
+1. **Skills Match** (0-25): How many required skills does the candidate have?
+2. **Experience Match** (0-25): Does the candidate's experience level match?
+3. **Education Match** (0-20): Does the candidate meet education requirements?
+4. **Location/Remote** (0-15): Is location compatible?
+5. **Salary Fit** (0-15): Is the expected salary within range?
+
+## Output Format (JSON)
+```json
+{
+  "total_score": 85,
+  "breakdown": {
+    "skills_match": 22,
+    "experience_match": 20,
+    "education_match": 18,
+    "location_match": 12,
+    "salary_fit": 13
+  },
+  "matching_skills": ["Python", "FastAPI"],
+  "missing_skills": ["Kubernetes"],
+  "recommendation": "APPLY",
+  "reasoning": "Strong technical match with 85% skill overlap..."
+}
+```
+
+## Rules
+- Be honest — don't inflate scores
+- Missing critical skills should cap total at 60
+- Government portal jobs: weight education higher
+- Remote jobs: location_match = 15 automatically
+- If total < 40, recommendation = "SKIP"
+- If total 40-65, recommendation = "CONSIDER"
+- If total > 65, recommendation = "APPLY"

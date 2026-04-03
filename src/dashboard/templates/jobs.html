@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jobs — JobAutoApply</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    {% include "_nav.html" %}
+    <main class="main-content">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+        <h1 style="font-size:24px;font-weight:700">💼 Job Search</h1>
+        <div style="display:flex;gap:12px">
+          <input type="text" class="form-input" placeholder="Search jobs..." id="search-input" style="width:300px">
+          <select class="form-select" id="portal-filter" style="width:150px">
+            <option value="">All Portals</option>
+            <option value="ssc">SSC</option>
+            <option value="upsc">UPSC</option>
+            <option value="rrb">RRB</option>
+            <option value="ibps">IBPS</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="naukri">Naukri</option>
+            <option value="indeed">Indeed</option>
+          </select>
+          <button class="btn btn-primary" onclick="scanJobs()">📡 Scan</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Portal</th>
+                <th>Department</th>
+                <th>Location</th>
+                <th>Salary</th>
+                <th>Deadline</th>
+                <th>Score</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobs-table">
+              <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:40px">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="toast-container" id="toast-container"></div>
+  <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
+  <script>
+    const theme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    function toggleTheme() { const t = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme',t); localStorage.setItem('theme',t); }
+    function toast(m,t='info') { const c=document.getElementById('toast-container'); const e=document.createElement('div'); e.className=`toast ${t}`; e.textContent=m; c.appendChild(e); setTimeout(()=>e.remove(),4000); }
+
+    async function loadJobs() {
+      try {
+        const portal = document.getElementById('portal-filter').value;
+        const res = await fetch(`/api/jobs/?portal=${portal}&limit=100`);
+        const jobs = await res.json();
+        if (jobs.length === 0) {
+          document.getElementById('jobs-table').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:40px">No jobs found. Click "Scan" to discover jobs.</td></tr>';
+          return;
+        }
+        document.getElementById('jobs-table').innerHTML = jobs.map(j => `
+          <tr>
+            <td><strong>${j.title}</strong></td>
+            <td><span class="badge info">${j.portal}</span></td>
+            <td>${j.department||'—'}</td>
+            <td>${j.location||'—'}</td>
+            <td>${j.salary||'—'}</td>
+            <td>${j.last_date||'—'}</td>
+            <td>${j.match_score ? '<span class="badge '+(j.match_score>=70?'success':j.match_score>=40?'warning':'danger')+'">'+j.match_score+'%</span>' : '—'}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" onclick="applyJob(${j.id})">Apply</button>
+              <a href="${j.url}" target="_blank" class="btn btn-secondary btn-sm">View</a>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) { console.error(e); }
+    }
+
+    async function scanJobs() {
+      toast('Scanning all portals...', 'info');
+      try { const r = await fetch('/api/jobs/scan', {method:'POST'}); const d = await r.json(); toast(`Found ${d.total_found||0} jobs!`, 'success'); loadJobs(); }
+      catch(e) { toast('Scan failed', 'error'); }
+    }
+
+    async function applyJob(jobId) {
+      toast('Starting application...', 'info');
+      try { const r = await fetch('/api/apply/', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({job_id:jobId})}); const d = await r.json(); toast(d.status||'Done', d.status==='success'?'success':'info'); }
+      catch(e) { toast('Apply failed', 'error'); }
+    }
+
+    document.getElementById('portal-filter').addEventListener('change', loadJobs);
+    loadJobs();
+  </script>
+</body>
+</html>

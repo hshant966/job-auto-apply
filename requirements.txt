@@ -1,0 +1,49 @@
+# JobAutoApply — Dependencies
+# Core
+fastapi>=0.115.0
+uvicorn[standard]>=0.34.0
+starlette>=0.46.0
+pydantic>=2.10.0
+python-multipart>=0.0.18
+jinja2>=3.1.6
+aiofiles>=24.1.0
+
+# Browser automation
+playwright>=1.49.0
+
+# HTTP client
+httpx>=0.28.0
+
+# RSS/Atom feed parsing
+feedparser>=6.0.0
+
+# Configuration
+pyyaml>=6.0.0
+python-dotenv>=1.0.0
+
+# Security
+cryptography>=44.0.0
+
+# Database (SQLite is built-in)
+
+# Logging
+loguru>=0.7.0
+
+# Utilities
+python-dateutil>=2.9.0
+Pillow>=11.0.0
+
+# OCR (for text CAPTCHA)
+pytesseract>=0.3.13
+
+# Image preprocessing (optional — for advanced CAPTCHA pipelines)
+opencv-python-headless>=4.10.0
+numpy>=1.26.0
+
+# Testing
+pytest>=8.3.0
+pytest-asyncio>=0.24.0
+
+# Resume parsing
+PyPDF2>=3.0.0
+python-docx>=1.1.0

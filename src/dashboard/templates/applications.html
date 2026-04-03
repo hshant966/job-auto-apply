@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applications — JobAutoApply</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    {% include "_nav.html" %}
+    <main class="main-content">
+      <h1 style="font-size:24px;font-weight:700;margin-bottom:24px">📝 Applications</h1>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="btn btn-secondary btn-sm" onclick="filterStatus('')">All</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterStatus('submitted')">Submitted</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterStatus('applying')">In Progress</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterStatus('rejected')">Rejected</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterStatus('selected')">Selected</button>
+      </div>
+      <div class="card">
+        <div class="table-container">
+          <table>
+            <thead><tr><th>ID</th><th>Job ID</th><th>Status</th><th>Applied</th><th>Reference</th><th>Notes</th></tr></thead>
+            <tbody id="apps-table"><tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:40px">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="toast-container" id="toast-container"></div>
+  <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
+  <script>
+    const theme=localStorage.getItem('theme')||'dark'; document.documentElement.setAttribute('data-theme',theme);
+    function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t);}
+    function toast(m,t='info'){const c=document.getElementById('toast-container'),e=document.createElement('div');e.className=`toast ${t}`;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),4000);}
+
+    async function loadApps(status='') {
+      try {
+        const r = await fetch(`/api/dashboard/applications?status=${status}&limit=100`);
+        const apps = await r.json();
+        if (!apps.length) { document.getElementById('apps-table').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:40px">No applications</td></tr>'; return; }
+        const colors={discovered:'info',draft:'muted',applying:'warning',submitted:'success',confirmed:'success',rejected:'danger',selected:'success',failed:'danger'};
+        document.getElementById('apps-table').innerHTML=apps.map(a=>`<tr>
+          <td>${a.id}</td><td>${a.job_id}</td>
+          <td><span class="badge ${colors[a.status]||'muted'}">${a.status}</span></td>
+          <td>${a.applied_date||'—'}</td><td>${a.reference_id||'—'}</td><td>${a.notes||'—'}</td>
+        </tr>`).join('');
+      } catch(e){console.error(e);}
+    }
+    function filterStatus(s){loadApps(s);}
+    loadApps();
+  </script>
+</body>
+</html>

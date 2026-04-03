@@ -1,0 +1,183 @@
+2026-04-03 05:34:03,399 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:34:03,960 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:34:43,447 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:42:31,201 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:42:31,542 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:42:31,543 [INFO] src.api.app: JobAutoApply stopped
+2026-04-03 05:42:37,214 [INFO] src.api.app: JobAutoApply stopped
+2026-04-03 05:42:44,842 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:42:45,354 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:43:16,629 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:43:16,658 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:43:16,685 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:43:16,790 [ERROR] src.adapters.ssc_adapter: SSC search error: 'SSCAdapter' object has no attribute '_get_page'
+2026-04-03 05:43:16,790 [ERROR] src.adapters.upsc_adapter: UPSC search error: 'UPSCAdapter' object has no attribute '_get_page'
+2026-04-03 05:43:16,790 [ERROR] src.adapters.indeed_adapter: Indeed search error: 'IndeedAdapter' object has no attribute '_get_page'
+2026-04-03 05:44:15,570 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:44:15,911 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:44:15,912 [INFO] src.api.app: JobAutoApply stopped
+2026-04-03 05:44:26,016 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8001
+2026-04-03 05:44:26,356 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:45:10,337 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:45:10,681 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:45:28,053 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:45:28,057 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:45:28,061 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:45:28,065 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:45:42,473 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:45:42,816 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:45:42,817 [INFO] src.api.app: JobAutoApply stopped
+2026-04-03 05:46:02,423 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:46:02,764 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:47:37,755 [INFO] jobautoapply: 🚀 JobAutoApply starting on http://127.0.0.1:8000
+2026-04-03 05:47:38,264 [INFO] src.api.app: JobAutoApply started
+2026-04-03 05:48:02,234 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,238 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,242 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,246 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,250 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,254 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,258 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,262 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,266 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,270 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,274 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,279 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,283 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,287 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,291 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,295 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,299 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,303 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,307 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,311 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,315 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,319 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,323 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,327 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,331 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,335 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,339 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,343 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,347 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,351 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,355 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,359 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,363 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,367 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,371 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,375 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,380 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,384 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,388 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,392 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,396 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,400 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,404 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,408 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,412 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,416 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,420 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,424 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,428 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:02,432 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:15,993 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:15,997 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,001 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,005 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,009 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,014 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,018 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,022 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,026 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,030 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,035 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,039 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,043 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,047 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,051 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,056 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,060 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,064 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,068 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,073 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,077 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,081 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,085 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,090 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,094 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,098 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,102 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,106 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,111 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,115 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,119 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,123 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,127 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,132 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,136 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,140 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,144 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,148 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,153 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,157 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,161 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,165 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,170 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,174 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,178 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,182 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,186 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,191 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,195 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:16,199 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,441 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,445 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,449 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,453 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,458 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,462 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,466 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,470 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,475 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,479 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,483 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,487 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,492 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,496 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,500 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,504 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,509 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,513 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,517 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,521 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,526 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,530 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,534 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,538 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,543 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,547 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,551 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,555 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,559 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,564 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,568 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,572 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,576 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,581 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,585 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,589 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,594 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,598 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,602 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,606 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,611 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,615 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,620 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,624 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,628 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,633 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,637 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,641 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,645 [WARNING] src.ai.brain: No AI API key configured — using local fallback
+2026-04-03 05:48:29,650 [WARNING] src.ai.brain: No AI API key configured — using local fallback

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — JobAutoApply</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    {% include "_nav.html" %}
+    <main class="main-content">
+      <h1 style="font-size:24px;font-weight:700;margin-bottom:24px">⚙️ Settings</h1>
+
+      <!-- AI Provider -->
+      <div class="card" style="margin-bottom:16px">
+        <h2 class="card-title" style="margin-bottom:16px">🤖 AI Provider</h2>
+        <div class="form-group">
+          <label class="form-label">Provider</label>
+          <select class="form-select" id="ai-provider" onchange="toggleProviderFields()">
+            <option value="openrouter">OpenRouter (Free models)</option>
+            <option value="anthropic">Anthropic (Claude)</option>
+            <option value="openai">OpenAI (GPT)</option>
+            <option value="custom">Custom Endpoint</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">API Key</label><input class="form-input" type="password" id="ai-api-key" placeholder="sk-..."></div>
+        <div class="form-group" id="model-group"><label class="form-label">Model</label><input class="form-input" id="ai-model" placeholder="Auto-select best model"></div>
+        <div class="form-group" id="api-base-group" style="display:none"><label class="form-label">API Base URL</label><input class="form-input" id="ai-api-base" placeholder="https://api.example.com/v1"></div>
+        <button class="btn btn-primary" onclick="saveAI()">Save AI Config</button>
+      </div>
+
+      <!-- Portals -->
+      <div class="card" style="margin-bottom:16px">
+        <h2 class="card-title" style="margin-bottom:16px">🔐 Portal Credentials</h2>
+        <div id="portals-list">Loading...</div>
+        <hr style="border-color:var(--border);margin:16px 0">
+        <div class="grid-3">
+          <div class="form-group"><label class="form-label">Portal</label>
+            <select class="form-select" id="new-portal"><option value="ssc">SSC</option><option value="upsc">UPSC</option><option value="rrb">RRB</option><option value="ibps">IBPS</option><option value="linkedin">LinkedIn</option><option value="naukri">Naukri</option><option value="indeed">Indeed</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Username</label><input class="form-input" id="new-username"></div>
+          <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" id="new-password"></div>
+        </div>
+        <button class="btn btn-success" onclick="addPortal()">➕ Add Portal</button>
+      </div>
+
+      <!-- Scan Settings -->
+      <div class="card">
+        <h2 class="card-title" style="margin-bottom:16px">📡 Scan Settings</h2>
+        <div class="grid-2">
+          <div class="form-group"><label class="form-label">Scan Interval (hours)</label><input class="form-input" type="number" id="scan-interval" value="2" min="1" max="24"></div>
+          <div class="form-group"><label class="form-label">Max Applications/Day</label><input class="form-input" type="number" id="max-apps" value="10" min="1" max="100"></div>
+          <div class="form-group"><label class="form-label">Min Match Score</label><input class="form-input" type="number" id="min-score" value="40" min="0" max="100"></div>
+          <div class="form-group"><label class="form-label">Telegram Bot Token</label><input class="form-input" type="password" id="tg-token" placeholder="Bot token (optional)"></div>
+        </div>
+        <button class="btn btn-primary" onclick="saveScanSettings()">Save Settings</button>
+      </div>
+    </main>
+  </div>
+  <div class="toast-container" id="toast-container"></div>
+  <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
+  <script>
+    const theme=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',theme);
+    function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t);}
+    function toast(m,t='info'){const c=document.getElementById('toast-container'),e=document.createElement('div');e.className=`toast ${t}`;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),4000);}
+
+    function toggleProviderFields(){
+      const p=document.getElementById('ai-provider').value;
+      document.getElementById('api-base-group').style.display=p==='custom'?'block':'none';
+      const models={openrouter:'meta-llama/llama-3.1-8b-instruct:free',anthropic:'claude-sonnet-4-20250514',openai:'gpt-4o-mini',custom:''};
+      document.getElementById('ai-model').placeholder=models[p]||'';
+    }
+
+    async function loadPortals(){
+      try{
+        const r=await fetch('/api/portals/list');
+        const d=await r.json();
+        document.getElementById('portals-list').innerHTML=d.portals.map(p=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+            <span><strong>${p.name}</strong> — ${p.url}</span>
+            <button class="btn btn-danger btn-sm" onclick="deletePortal('${p.name}')">Remove</button>
+          </div>
+        `).join('');
+      }catch(e){console.error(e);}
+    }
+
+    async function addPortal(){
+      const portal=document.getElementById('new-portal').value;
+      const username=document.getElementById('new-username').value;
+      const password=document.getElementById('new-password').value;
+      if(!username||!password){toast('Fill all fields','error');return;}
+      try{
+        await fetch('/api/portals/credentials',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({portal_name:portal,username,password})});
+        toast(`${portal} credentials saved!`,'success');loadPortals();
+      }catch(e){toast('Error','error');}
+    }
+
+    async function deletePortal(name){
+      try{await fetch(`/api/portals/credentials/${name}`,{method:'DELETE'});toast(`${name} removed`,'success');loadPortals();}
+      catch(e){toast('Error','error');}
+    }
+
+    async function saveAI(){
+      const data={provider:document.getElementById('ai-provider').value,api_key:document.getElementById('ai-api-key').value,model:document.getElementById('ai-model').value,api_base:document.getElementById('ai-api-base').value};
+      try{await fetch('/api/settings/ai-provider',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});toast('AI config saved!','success');}
+      catch(e){toast('Error','error');}
+    }
+
+    async function saveScanSettings(){
+      const settings={'scan_interval_hours':document.getElementById('scan-interval').value,'max_apps_per_day':document.getElementById('max-apps').value,'min_match_score':document.getElementById('min-score').value,'telegram_token':document.getElementById('tg-token').value};
+      try{for(const[k,v]of Object.entries(settings)){await fetch('/api/settings/',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,value:v})});}toast('Settings saved!','success');}
+      catch(e){toast('Error','error');}
+    }
+
+    loadPortals();
+  </script>
+</body>
+</html>

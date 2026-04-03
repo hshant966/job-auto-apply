@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — JobAutoApply</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    {% include "_nav.html" %}
+    <main class="main-content">
+      <h1 style="font-size:24px;font-weight:700;margin-bottom:24px">👤 Profile</h1>
+
+      <!-- Completeness -->
+      <div class="card" style="margin-bottom:24px">
+        <h2 class="card-title" style="margin-bottom:16px">Profile Completeness</h2>
+        <div style="background:var(--bg-primary);border-radius:8px;height:24px;overflow:hidden">
+          <div id="completeness-bar" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--success));border-radius:8px;transition:width 0.5s;width:0%"></div>
+        </div>
+        <p style="margin-top:8px;color:var(--text-secondary)" id="completeness-text">0% complete</p>
+      </div>
+
+      <form id="profile-form">
+        <!-- Personal Info -->
+        <div class="card" style="margin-bottom:16px">
+          <h2 class="card-title" style="margin-bottom:16px">Personal Information</h2>
+          <div class="grid-2">
+            <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" name="full_name" id="full_name"></div>
+            <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" type="date" name="dob" id="dob"></div>
+            <div class="form-group"><label class="form-label">Gender</label><select class="form-select" name="gender" id="gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+            <div class="form-group"><label class="form-label">Father's Name</label><input class="form-input" name="father_name" id="father_name"></div>
+            <div class="form-group"><label class="form-label">Category</label><select class="form-select" name="category" id="category"><option>General</option><option>OBC</option><option>SC</option><option>ST</option><option>EWS</option></select></div>
+            <div class="form-group"><label class="form-label">Nationality</label><input class="form-input" name="nationality" value="Indian"></div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="card" style="margin-bottom:16px">
+          <h2 class="card-title" style="margin-bottom:16px">Contact Information</h2>
+          <div class="grid-2">
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" name="email" id="email"></div>
+            <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" name="phone" id="phone"></div>
+            <div class="form-group"><label class="form-label">Address</label><input class="form-input" name="address_line1" id="address_line1"></div>
+            <div class="form-group"><label class="form-label">City</label><input class="form-input" name="city" id="city"></div>
+            <div class="form-group"><label class="form-label">State</label><input class="form-input" name="state" id="state"></div>
+            <div class="form-group"><label class="form-label">Pincode</label><input class="form-input" name="pincode" id="pincode"></div>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="card" style="margin-bottom:16px">
+          <h2 class="card-title" style="margin-bottom:16px">Skills & Preferences</h2>
+          <div class="form-group"><label class="form-label">Skills (comma-separated)</label><textarea class="form-textarea" name="skills" id="skills" rows="3" placeholder="python, java, sql, react..."></textarea></div>
+          <div class="form-group"><label class="form-label">Desired Roles (comma-separated)</label><textarea class="form-textarea" name="desired_roles" id="desired_roles" rows="2" placeholder="Software Engineer, Data Analyst..."></textarea></div>
+          <div class="grid-2">
+            <div class="form-group"><label class="form-label">Preferred Locations</label><input class="form-input" name="locations" id="locations" placeholder="Delhi, Mumbai, Remote"></div>
+            <div class="form-group"><label class="form-label">Remote OK?</label><select class="form-select" name="remote_ok" id="remote_ok"><option value="false">No</option><option value="true">Yes</option></select></div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%">💾 Save Profile</button>
+      </form>
+    </main>
+  </div>
+  <div class="toast-container" id="toast-container"></div>
+  <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
+  <script>
+    const theme=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',theme);
+    function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t);}
+    function toast(m,t='info'){const c=document.getElementById('toast-container'),e=document.createElement('div');e.className=`toast ${t}`;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),4000);}
+
+    async function loadProfile() {
+      try {
+        const r = await fetch('/api/profile/');
+        if (r.ok) {
+          const p = await r.json();
+          if (p.personal) {
+            document.getElementById('full_name').value = p.personal.full_name||'';
+            document.getElementById('dob').value = p.personal.dob||'';
+            document.getElementById('gender').value = p.personal.gender||'Male';
+            document.getElementById('father_name').value = p.personal.father_name||'';
+            document.getElementById('category').value = p.category||'General';
+          }
+          if (p.contact) {
+            document.getElementById('email').value = p.contact.email||'';
+            document.getElementById('phone').value = p.contact.phone||'';
+            if (p.contact.address) {
+              document.getElementById('address_line1').value = p.contact.address.address_line1||'';
+              document.getElementById('city').value = p.contact.address.city||'';
+              document.getElementById('state').value = p.contact.address.state||'';
+              document.getElementById('pincode').value = p.contact.address.pincode||'';
+            }
+          }
+          if (p.skills) document.getElementById('skills').value = p.skills.join(', ');
+          if (p.preferences) {
+            document.getElementById('desired_roles').value = (p.preferences.desired_roles||[]).join(', ');
+            document.getElementById('locations').value = (p.preferences.locations||[]).join(', ');
+            document.getElementById('remote_ok').value = String(p.preferences.remote_ok||false);
+          }
+          // Completeness
+          if (p.completeness_pct !== undefined) {
+            document.getElementById('completeness-bar').style.width = p.completeness_pct + '%';
+            document.getElementById('completeness-text').textContent = p.completeness_pct + '% complete';
+          }
+        }
+      } catch(e) { console.error(e); }
+    }
+
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = {
+        personal: { full_name: fd.get('full_name'), dob: fd.get('dob'), gender: fd.get('gender'), father_name: fd.get('father_name'), nationality: fd.get('nationality') },
+        contact: { email: fd.get('email'), phone: fd.get('phone'), address: { address_line1: fd.get('address_line1'), city: fd.get('city'), state: fd.get('state'), pincode: fd.get('pincode') } },
+        category: fd.get('category'),
+        skills: fd.get('skills').split(',').map(s=>s.trim()).filter(Boolean),
+        preferences: { desired_roles: fd.get('desired_roles').split(',').map(s=>s.trim()).filter(Boolean), locations: fd.get('locations').split(',').map(s=>s.trim()).filter(Boolean), remote_ok: fd.get('remote_ok')==='true' }
+      };
+      try {
+        const r = await fetch('/api/profile/', { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+        if (r.ok) toast('Profile saved!', 'success');
+        else toast('Save failed', 'error');
+      } catch(e) { toast('Error: '+e.message, 'error'); }
+    });
+
+    loadProfile();
+  </script>
+</body>
+</html>
